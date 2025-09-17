@@ -1,0 +1,15 @@
+-------------Dual Vocabulary Graph Model Results (RoBERTa)-------------
+Dataset: politifact
+Model: dual-vocab-roberta-graph5-fake_subgraph_logits-pooling
+RoBERTa Layer: 6
+Iterations: 1
+Epochs: 1
+Batch Size: 4
+Learning Rate: 1e-05
+-------------Original Test Set-------------
+All Acc.s: [0.9111111111111111]
+All Prec.s: [0.9185520361990951]
+All Rec.s: [0.9111111111111111]
+All F1.s: [0.9107142857142856]
+Average acc.: 0.9111111111111111
+Average Prec / Rec / F1 (macro): 0.9185520361990951, 0.9111111111111111, 0.9107142857142856
