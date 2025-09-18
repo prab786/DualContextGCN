@@ -18,6 +18,7 @@ The `.pkl` files under `data/news_articles/` contain the unaltered news article 
 Start training with the following command:
 
 python src/DcgcnR.py --dataset_name politifact
+
 [--dataset_name]: politifact / gossipcop / lun
 
 
