@@ -21,4 +21,6 @@ python src/DcgcnR.py --dataset_name politifact
 
 [--dataset_name]: politifact / gossipcop / lun
 
+## Acknowledgments
 
+We have adopted the project structure and Training code from: https://github.com/jiayingwu19/SheepDog/tree/main
