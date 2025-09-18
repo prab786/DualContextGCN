@@ -29,7 +29,7 @@ parser.add_argument('--max_len', default=512, type=int, help='Maximum sequence l
 parser.add_argument('--learning_rate', default=1e-5, type=float, help='Learning rate')
 parser.add_argument('--dropout', default=0.1, type=float, help='Dropout rate')
 parser.add_argument('--graph_hidden_dim', default=768, type=int, help='Graph hidden dimension')
-parser.add_argument('--fusion_dim', default=768, type=int, help='Fusion layer dimension')
+parser.add_argument('--fusion_dim', default=156, type=int, help='Fusion layer dimension')
 
 args = parser.parse_args()
 
@@ -155,7 +155,7 @@ class GeGLU(torch.nn.Module):
 class SimplifiedDualVocabModel(nn.Module):
     """Simplified dual vocabulary model with configurable RoBERTa layer node features"""
     
-    def __init__(self, roberta_dim=768, graph_hidden_dim=256, fusion_dim=512, num_classes=2, dropout=0.3, target_layer=9):
+    def __init__(self, roberta_dim=768, graph_hidden_dim=768, fusion_dim=156, num_classes=2, dropout=0.3, target_layer=9):
         super(SimplifiedDualVocabModel, self).__init__()
         
         self.roberta_dim = roberta_dim
@@ -177,8 +177,9 @@ class SimplifiedDualVocabModel(nn.Module):
         # Normalization
         self.roberta_norm = nn.LayerNorm(roberta_dim)
         self.graph_norm = nn.LayerNorm(graph_hidden_dim)        
-        self.classifer = nn.Linear(2*num_classes, num_classes)
-        self.classifer_fuse = nn.Linear(fusion_dim, num_classes)
+        self.classifer = nn.Linear(2*fusion_dim, num_classes)
+        self.Linear_layer_f = nn.Linear(graph_hidden_dim, fusion_dim)
+        self.Linear_layer_r = nn.Linear(graph_hidden_dim, fusion_dim)
         
       
     
@@ -223,19 +224,18 @@ class SimplifiedDualVocabModel(nn.Module):
         fake_graph_features = torch.stack(fake_graph_features_batch)
         
         # Generate predictions
-        fake_subgraph_logits = self.classifer_fuse(fake_graph_features)
-        real_subgraph_logits = self.classifer_fuse(real_graph_features)
+        h_fake = self.Linear_layer_f(fake_graph_features)
+        h_real = self.Linear_layer_f(real_graph_features)
         
-        fused_features_logit = torch.cat([real_subgraph_logits, fake_subgraph_logits], dim=-1)
+        fused_features_logit = torch.cat([h_real, h_fake], dim=-1)
         logits = self.classifer(fused_features_logit)
         
         return {
             'logits': logits,            
             'roberta_features': roberta_pooled,
-            'real_graph_features': real_graph_features,
-            'fake_graph_features': fake_graph_features,           
-            'real_subgraph_logits': real_subgraph_logits,
-            'fake_subgraph_logits': fake_subgraph_logits,           
+            'real_graph_features': h_real,
+            'fake_graph_features': h_fake,           
+                      
         }
     
     def _get_contextualized_subgraph(self, input_text, vocab_graph, token2idx, target_layer_embeddings, tokenizer):
