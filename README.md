@@ -12,7 +12,7 @@ The `.pkl` files under `data/news_articles/` contain the unaltered news article 
 
 
 
-## Run DcgcnR
+## Run DCGCN
  
 
 Start training with the following command:
