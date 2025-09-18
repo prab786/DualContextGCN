@@ -1,4 +1,4 @@
-# Data and Code for "DualContextGCN: Modeling differential Word Associations for Fake News Detection (WSDM 2026)
+# Data and Code for "DualContextGCN: Modeling differential Word Associations for Fake News Detection 
 
 
 ## Data
@@ -19,5 +19,5 @@ Start training with the following command:
 
 python src/DcgcnR.py 
 
-
 # DCGCN
+
