@@ -9,7 +9,7 @@ import numpy as np
 import sys, os
 import pickle
 sys.path.append(os.getcwd())
-from utils.load_data_vocab_roberta_wsdm import *
+from utils.load_data_vocab_roberta import *
 import warnings
 from sklearn.metrics import precision_recall_fscore_support as score
 from sklearn.metrics import accuracy_score
