@@ -12,12 +12,15 @@ The `.pkl` files under `data/news_articles/` contain the unaltered news article 
 
 
 
-## Run DcgcnR
+## Run DCGCN
  
 
 Start training with the following command:
 
 python src/DcgcnR.py --dataset_name politifact
-# [--dataset_name]: politifact / gossipcop / lun
-# DCGCN
 
+[--dataset_name]: politifact / gossipcop / lun
+
+## Acknowledgments
+
+We have adopted the project structure and Training code and data from: https://github.com/jiayingwu19/SheepDog/tree/main
