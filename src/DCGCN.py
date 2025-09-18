@@ -21,10 +21,10 @@ warnings.filterwarnings("ignore")
 # Command line arguments
 parser = argparse.ArgumentParser(description='Dual Vocabulary Graph Model for Fake News Detection')
 parser.add_argument('--dataset_name', default='politifact', type=str, help='Dataset name: politifact/gossipcop')
-parser.add_argument('--model_name', default='dual-vocab-roberta-graph5-fake_subgraph_logits-pooling', type=str, help='Model name for logging')
-parser.add_argument('--iters', default=1, type=int, help='Number of iterations')
+parser.add_argument('--model_name', default='DCGCN-', type=str, help='Model name for logging')
+parser.add_argument('--iters', default=10, type=int, help='Number of iterations')
 parser.add_argument('--batch_size', default=4, type=int, help='Batch size')
-parser.add_argument('--n_epochs', default=1, type=int, help='Number of epochs')
+parser.add_argument('--n_epochs', default=3, type=int, help='Number of epochs')
 parser.add_argument('--max_len', default=512, type=int, help='Maximum sequence length')
 parser.add_argument('--learning_rate', default=1e-5, type=float, help='Learning rate')
 parser.add_argument('--dropout', default=0.1, type=float, help='Dropout rate')
@@ -220,8 +220,8 @@ class SimplifiedDualVocabModel(nn.Module):
             fake_graph_features_batch.append(fake_features)
         
         # Stack batch results
-        real_graph_features = torch.stack(real_graph_features_batch)
-        fake_graph_features = torch.stack(fake_graph_features_batch)
+        real_graph_features = torch.stack(real_graph_features_batch) #H_Real
+        fake_graph_features = torch.stack(fake_graph_features_batch) #H_Fake
         
         # Generate predictions
         h_fake = self.Linear_layer_f(fake_graph_features)
